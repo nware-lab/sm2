@@ -21,7 +21,7 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_TOKEN }}
           password: ${{ secrets.DOCKER_HUB_USERNAME }}
       - name: Build and push Docker image for main branch => latest
-        id: push
+        id: push latest image
         uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
         with:
           context: .
@@ -30,7 +30,7 @@ jobs:
           tags: nwarelab/sm2:latest
         if: github.ref_name == 'main'
       - name: Build and push Docker image for other branches
-        id: push
+        id: push branch image
         uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
         with:
           context: .
