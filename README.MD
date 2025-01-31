@@ -1,6 +1,6 @@
-# sm2
+# sm²
 Syncthing Multi Server Monitor
-
+stylized as sm² (or sm2 for convenience)
 
 
 ## The goal:
