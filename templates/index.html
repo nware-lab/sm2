@@ -1,0 +1,134 @@
+<html>
+    <head>
+        <title>SM²</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <!-- <meta http-equiv="refresh" content="3"> -->
+        <style>
+            .center {text-align: center;}
+            #title {background-color: #212529;
+                    color: white;
+                    text-align: center;
+                    border-radius: 15px;
+                    
+                    padding-top: 0.3em;
+                    padding-bottom: 0.3em;
+                    padding-left: 1em;
+                    padding-right: 1em;
+                    text-decoration: none;
+                    display: inline-block;
+                    margin-left: auto;
+                    margin-right: auto;
+                    margin-top: 13px;
+                    margin-bottom: 13px;
+                }
+            .card-title{ 
+                margin-top: 1px;
+                margin-bottom: 0.5em;
+                text-align: center !important;
+                font-size: 1.5em;}
+            .card { background-color: #212529;
+                    color: white;
+                    float: left;
+                    width: 16rem;
+                    padding: 1rem;
+                    padding-top: 0%;
+                    border-radius: 5px;
+                    }
+            .container{ 
+                    margin: 0 auto;
+                    display: grid;
+                    gap: 1rem;
+                    padding: 1%;}
+
+            progress{
+                    width:100%;
+            }
+            ul{ margin-top:8px}
+
+@media (max-width: 650px) {
+    .container { grid-template-columns: repeat(1, 1fr); }
+    .card{justify-self: center}
+}
+@media (min-width: 650px) {
+  .container { grid-template-columns: repeat(2, 1fr); }
+  .card{justify-self: center}
+}
+@media (min-width: 950px) {
+  .container { grid-template-columns: repeat(3, 1fr); }
+}
+@media (min-width: 1250px) {
+  .container { grid-template-columns: repeat(4, 1fr); }
+}
+@media (min-width: 1550px) {
+  .container { grid-template-columns: repeat(5, 1fr); }
+}
+@media (min-width: 1850px) {
+  .container { grid-template-columns: repeat(6, 1fr); }
+}
+        </style>
+    
+    </head>
+    <body style=" background-color:#404548; margin:0;">
+        <div style="width:auto;margin-left:auto;margin-right:auto; text-align:center">
+            <h2 id="title">Syncthing-MSM aka SMSM aka SM²</h2>
+        </div>
+        <div class="container">
+ 
+            {%- for server in status %}
+                    <div class="card">
+                            
+                            <h3 class="card-title text-center"><img style="height:0.8em; margin-right: 0.25em;vertical-align:middle;" src="https://github.com/syncthing/syncthing/blob/main/gui/default/assets/img/favicon-default.png?raw=true"/><a href="{{server.url}}" style="color: white; text-decoration:none; font-size: 1em;"  target="_blank">{{server.name}}</a></h5>
+                            <div class="card-body">
+                                <div class="center" {% if server.sync_completion < 100%} style="color: orange;" {% endif %}>{{server.sync_completion | int() }}%</div>
+                                <progress width="100%;" max="100" value="{{server.sync_completion | int() }}"></progress>
+                                <div class="center">{{server.folder_count}} folders - {{server.device_count}} devices</div>
+                                </br>
+                                <!-- errors -->
+                                {% if server.errors is defined %}
+                                    <div>{{server.errors}}</div>
+                                {% endif %}
+                                <!-- locally change files -->
+                                {% if server.local_changed_files is defined %}
+                                    <div>Folders with local changes:</div>
+                                    {% if server.local_changed_files.items()| length > 0 %}
+                                        <ul>
+                                        {%- for folder, count in server.local_changed_files.items() %}
+                                        <li style="color: red;">{{folder}}: {{count}} file{% if count > 1 %}s{% endif %}</li>
+                                        {% endfor %}
+                                        </ul>
+                                    {% else %}
+                                        <div>No file conflicts</div>
+                                    {% endif %}
+                                {% endif %}
+                                <!-- pending devices -->
+                                
+                                {% if server.pending_devices is defined and server.pending_devices| length > 0 %}
+                                <div>pending devices:</div>
+                                    <ul>
+                                        {%- for device in server.pending_devices %}
+                                        <li style="color: orange;">{{device}}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            
+                                <!-- pending folders -->
+                                {% if server.pending_folders is defined and server.pending_folders| length > 0 %}
+                                    <div>pending folders:</div>
+                                        <ul>
+                                            {%- for folder in server.pending_folders %}
+                                            <li style="color: orange;">{{folder}}</li>
+                                            {% endfor %}
+                                        </ul>
+                                {% endif %}
+
+                                
+                            </div>
+                        
+                    </div>
+            {% endfor %}
+            
+        </div>
+        
+       
+    </body>
+</html>

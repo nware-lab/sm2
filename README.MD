@@ -42,6 +42,8 @@ The default protocol used is http if you require https for a device you'll need 
 
 
 # docker-compose example
+You can mix both env variables & the device file
+## with env variables
 ```
   sm2:
     image: nwarelab/sm2:latest
@@ -57,7 +59,17 @@ The default protocol used is http if you require https for a device you'll need 
     ports:
       - 8456:8456
 ```
-
+## with device files
+```
+  sm2:
+    image: nwarelab/sm2:latest
+    container_name: sm2
+    restart: always
+    ports:
+      - 8456:8456
+    volumes:
+      - ./device_list.json:/app/device_list.json
+```
 # TODO's
 Handle non server devices that are not online 24/7
 gotify for notifications ?
