@@ -15,6 +15,16 @@ This affected the following parts:
 This project was made with very little sleep so there will be typo's, missed conventions, ... let me know if you see anything.
 Any feedback is appreciated.
 
+# Screenshots
+
+<div>
+<img width="800" alt="overview" src="screenshots/overview.png">
+</div>
+<div>
+<img width="300" alt="pending_device" src="screenshots/pending_device.png">
+<img width="300" alt="pending_folder" src="screenshots/pending_folders.png">
+</div>
+
 usage:
 add your syncthing devices via a json file or env variables:
 
@@ -74,3 +84,4 @@ You can mix both env variables & the device file
 - Handle non server devices that are not online 24/7
 - gotify for notifications ?
 - figure out healthcheck that has less cpu impact
+
