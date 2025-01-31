@@ -71,6 +71,6 @@ You can mix both env variables & the device file
       - ./device_list.json:/app/device_list.json
 ```
 # TODO's
-Handle non server devices that are not online 24/7
-gotify for notifications ?
-figure out healthcheck that has less cpu impact
+- Handle non server devices that are not online 24/7
+- gotify for notifications ?
+- figure out healthcheck that has less cpu impact
