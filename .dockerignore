@@ -1,6 +1,7 @@
 **/.gitea/
 **/.venv/
 **/__pycache__/
+/screenshots
 device_list.json
 docker-compose.yml
 sm2.log
