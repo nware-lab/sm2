@@ -15,6 +15,17 @@ This affected the following parts:
 This project was made with very little sleep so there will be typo's, missed conventions, ... let me know if you see anything.
 Any feedback is appreciated.
 
+# features
+- Sync status of each device
+- List of folders with local changes (if there are any)
+- List pending devices or folders
+- Display of errors (if there are any)
+- API for monitoring (I use changedetecion.io)
+- Small footprint: docker image ~65MB, ram usage 17MB
+- Responsive (but ugly) UI that works on mobile devices
+- Configure devices with environment variables or with a json file 
+- handling devices going offline and returning (phones, laptops, ...)
+
 # Screenshots
 
 <div>
@@ -23,6 +34,7 @@ Any feedback is appreciated.
 <div>
 <img width="300" alt="pending_device" src="screenshots/pending_device.png">
 <img width="300" alt="pending_folder" src="screenshots/pending_folders.png">
+<img width="300" alt="pending_folder" src="screenshots/offline_device.png">
 </div>
 
 usage:
@@ -82,7 +94,7 @@ You can mix both env variables & the device file
       - ./device_list.json:/app/device_list.json
 ```
 # TODO's
-- Handle non server devices that are not online 24/7
+- api param to test offline devices on status call
 - gotify for notifications ?
 - figure out healthcheck that has less cpu impact
 

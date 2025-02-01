@@ -19,14 +19,23 @@ if os.path.exists(device_list_file_path):
     mux.add_list_off_devices_dicts(devices)
 # add the devices from the env variable to the mux
 mux.add_list_off_devices_dicts(get_devices_from_env_vriables())
+print("sm² is loaded and ready")
 
 
 
 @app.route("/")
 def root():
     # basic html page with an overview off all the configured devices
+    mux.retest_the_offline_devices()
     res = mux.get_full_device_list_status()
-    return render_template('index.html', status = res)
+    offline_device_count = mux.get_offline_device_count()
+    offine_device_names = mux.get_offline_device_names()
+    return render_template('index.html', status = res, offline_count= offline_device_count, offline_names = offine_device_names)
+
+@app.route("/retry_offline_devices")
+def retry_offline_devices():
+    res = mux.retest_the_offline_devices()
+    return jsonify(res)
 
 @app.route("/api/status")
 def api_status():

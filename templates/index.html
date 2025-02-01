@@ -126,7 +126,19 @@
                         
                     </div>
             {% endfor %}
-            
+            {% if offline_count > 0 %}
+            <div class="card">
+                <h3 class="card-title text-center"><img style="height:0.8em; margin-right: 0.25em;vertical-align:middle;" src="https://github.com/syncthing/syncthing/blob/main/gui/default/assets/img/favicon-default.png?raw=true"/><a href="." style="color: white; text-decoration:none; font-size: 1em;">Offline Devices</a></h5>
+                    <div class="card-body">
+                        <div style="color: orange;" class="center">{{offline_count}} offline device{% if offline_count > 1 %}s{% endif %}</div>   
+                        <ul>
+                            {%- for device_name in offline_names %}
+                            <ul> {{device_name}} </ul>
+                            {% endfor %}
+                        </ul>
+                    </div>
+            </div>
+            {% endif %}
         </div>
         
        
