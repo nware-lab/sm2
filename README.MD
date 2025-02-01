@@ -29,7 +29,8 @@ usage:
 add your syncthing devices via a json file or env variables:
 
 json:
-``` [
+``` 
+    [
     {"name" : "device1", 
     "url": "10.0.0.1:8384",
     "api_key": "API_KEY" },
