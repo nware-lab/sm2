@@ -93,6 +93,27 @@ You can mix both env variables & the device file
     volumes:
       - ./device_list.json:/app/device_list.json
 ```
+
+## data reporting
+By default the application reports some data back for usage statistics.
+This is to follow the amount  installs and which versions users are running, ...
+sm2 will always report what data its sending back.
+example of the data
+```
+{'ts': 1738466626.1446433, 'hostname': '5251dae16210', 'dev': 1, 'v': '0.1'}
+```
+currently this data includes: 
+- docker container id (this is to keep instances apart in the stats)
+- amount off devices configured (just the amount)
+- application version
+
+tl:dr;
+
+sm² has basic reporting for some statistics. __no personal data__ will ever be sent over, if you want to disable this reporting add the following environment variable. _I would like it if you didn't because I like stats, but I fully understand if you don't_
+```
+- DISABLE_REPORTING=true
+```
+
 # TODO's
 - api param to test offline devices on status call
 - gotify for notifications ?

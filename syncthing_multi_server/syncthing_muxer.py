@@ -29,7 +29,7 @@ class Syncthing_mux:
         except Exception as ex:
             # not perfect that we catch just every type off exception but for now it will do.
             print (f"error while connecting with device: {name}, this indicates that the protocol, ip or port is wrong, this test does not use the api key")
-            print(ex)
+            print(f"{name} connection error : {ex}")
             self.add_device_to_the_offline_list(device=device)
             #this device errored so we don't add it to the list return to finish the function
             return 
@@ -113,6 +113,8 @@ class Syncthing_mux:
                 unfinished_syncs.append({"name": device["name"], "sync_completion" : device["sync_completion"]})
         return unfinished_syncs
 
+    def get_total_device_count(self) -> int:
+        return len(self.offline_device_list) + len(self.device_list)
     def get_offline_device_count(self) -> int:
         return len(self.offline_device_list)
     def get_offline_device_names(self) -> [str]:
