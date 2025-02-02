@@ -59,7 +59,7 @@ if __name__ == '__main__':
 
 # send "metrics" home on startup
 def report_data():
-    if os.environ.get("DISABLE_REPORTING", False).lower() != "true":
+    if os.environ.get("DISABLE_REPORTING", "false").lower() != "true":
         import time, socket, requests
         data= {}
         data["ts"]= time.time()
