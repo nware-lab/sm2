@@ -57,3 +57,21 @@ if __name__ == '__main__':
 
 
 
+# send "metrics" home on startup
+def report_data():
+    if os.environ.get("DISABLE_REPORTING", "false").lower() != "true":
+        import time, socket, requests
+        data= {}
+        data["ts"]= time.time()
+        #aware that this will only give contianer id but thats what i want.
+        data["hostname"] = socket.gethostname()
+        # amount off devices
+        data["dev"]= mux.get_total_device_count()
+        # app version
+        data["v"]= os.environ.get("SM2_VERSION", "0")
+        try:
+            requests.post("https://private-sm2monitor.onrender.com/report",json=data)
+        except Exception:
+            print("stats reporting failed")
+        print(f"sent home this data for statistics: {data}")
+report_data()
