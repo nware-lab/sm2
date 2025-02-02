@@ -12,16 +12,16 @@ This affected the following parts:
 - no logging exept printing to console logging increased the ram usage by ~50%
 
 
-This project was made with very little sleep so there will be typo's, missed conventions, ... let me know if you see anything.
+This project was made with very little sleep so there will be typo's, missed conventions, ... let me know when you see anything.
 Any feedback is appreciated.
 
 # features
 - Sync status of each device
 - List of folders with local changes (if there are any)
-- List pending devices or folders
+- List pending devices or folders (if there are any)
 - Display of errors (if there are any)
 - API for monitoring (I use changedetecion.io)
-- Small footprint: docker image ~65MB, ram usage 17MB
+- Small footprint: docker image ~65MB, ram usage 34MB (goal is to lower this back down)
 - Responsive (but ugly) UI that works on mobile devices
 - Configure devices with environment variables or with a json file 
 - handling devices going offline and returning (phones, laptops, ...)
