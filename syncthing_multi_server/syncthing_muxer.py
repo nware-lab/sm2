@@ -113,8 +113,10 @@ class Syncthing_mux:
                 unfinished_syncs.append({"name": device["name"], "sync_completion" : device["sync_completion"]})
         return unfinished_syncs
 
+
     def get_total_device_count(self) -> int:
         return len(self.offline_device_list) + len(self.device_list)
+
     def get_offline_device_count(self) -> int:
         return len(self.offline_device_list)
     def get_offline_device_names(self) -> [str]:
