@@ -114,6 +114,10 @@ sm² has basic reporting for some statistics. __no personal data__ will ever be 
 - DISABLE_REPORTING=true
 ```
 
+# FAQ 
+Q: How would I add devices that are on different networks? 
+A: I use vpn's to connect my multiple locations common options are tailscale, netbird, twingate, ... (not endorsements)
+
 # TODO's
 - api param to test offline devices on status call
 - gotify for notifications ?
