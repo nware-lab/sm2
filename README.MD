@@ -32,12 +32,11 @@ Any feedback is appreciated.
 <img width="800" alt="overview" src="screenshots/overview.png">
 </div>
 <div>
-<img width="300" alt="pending_device" src="screenshots/pending_device.png">
-<img width="300" alt="pending_folder" src="screenshots/pending_folders.png">
-<img width="300" alt="pending_folder" src="screenshots/offline_device.png">
+<img width="300" alt="pending_device_and_folder" src="screenshots/pending_device_and_folder.png">
+<img width="300" alt="offline_device" src="screenshots/offline_device.png">
 </div>
 
-usage:
+Usage:
 add your syncthing devices via a json file or env variables:
 
 json:
@@ -122,4 +121,5 @@ A: I use vpn's to connect my multiple locations common options are tailscale, ne
 - api param to test offline devices on status call
 - gotify for notifications ?
 - figure out healthcheck that has less cpu impact
+- performance improvements
 
