@@ -1,4 +1,5 @@
 from syncthing_multi_server.syncthing import Syncthing
+import time
 
 """ class that gathers the info from all the configured syncthing devices """
 
@@ -10,6 +11,7 @@ class Syncthing_mux:
     def __init__(self):
         self.device_list = []
         self.offline_device_list = []
+        self.offline_last_checked = time.time()
 
     def add_syncthing_device_to_mux(self, name, url, api_key):
         # cleanup the url
@@ -75,6 +77,9 @@ class Syncthing_mux:
         self.device_list.remove(device)
 
     def retest_the_offline_devices(self):
+        # remember when we last did this
+        self.offline_last_checked = time.time()
+
         # we try if any of the offline devices is up now
         for device in self.offline_device_list:
             # we pop the device from the list as we are positive and assume that it will be online now.
@@ -82,6 +87,24 @@ class Syncthing_mux:
             # otherwise if all these are still offline we could check the last one in this list for the amount off offline devices in the list.
             dev = self.offline_device_list.pop(0)
             self.add_syncthing_device_to_mux(name=dev.name,url=dev.baseurl, api_key=dev.api_key)
+
+    def get_how_long_ago_we_checked_offline_devices_seconds(self) -> int:
+        return int(time.time() - self.offline_last_checked)
+    def get_how_long_ago_we_checked_offline_devices_in_human(self) -> str:
+        sec = self.get_how_long_ago_we_checked_offline_devices_seconds()
+        if sec < 60:
+            return f"{sec} second{'s' if sec > 1 else ''} ago"
+        elif sec < 3600:  # Less than an hour
+            min = round(sec / 60)
+            return f"{min} minute{'s' if min > 1 else ''} ago"
+        elif sec < 86400:  # Less than a day
+            hours = round(sec / 3600)
+            return f"{hours} hour{'s' if hours > 1 else ''} ago"
+        else:
+            days = round(sec / 86400)
+            return f"{days} day{'s' if days > 1 else ''} ago"
+
+
 
     def del_none(self, d):
         # cleanup dict to remove keys that have None values

@@ -1,7 +1,7 @@
 
 from syncthing_multi_server.syncthing_muxer import Syncthing_mux
 import json
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template, request
 from env_reader import get_devices_from_env_vriables
 import os.path
 
@@ -26,11 +26,15 @@ print("sm² is loaded and ready")
 @app.route("/")
 def root():
     # basic html page with an overview off all the configured devices
-    mux.retest_the_offline_devices()
+    # default refresh only the known online devices
+    # but if we get a ?load=full we recheck the offline devices
+    retest_offline_devices_if_requested()
+
     res = mux.get_full_device_list_status()
     offline_device_count = mux.get_offline_device_count()
     offine_device_names = mux.get_offline_device_names()
-    return render_template('index.html', status = res, offline_count= offline_device_count, offline_names = offine_device_names)
+    last_checked_offline = mux.get_how_long_ago_we_checked_offline_devices_in_human()
+    return render_template('index.html', status = res, offline_count= offline_device_count, offline_names = offine_device_names, last_checked_offline = last_checked_offline)
 
 @app.route("/retry_offline_devices")
 def retry_offline_devices():
@@ -39,6 +43,8 @@ def retry_offline_devices():
 
 @app.route("/api/status")
 def api_status():
+    retest_offline_devices_if_requested()
+
     # return the status off all devices to as a json result
     return mux.get_full_device_list_status()
 
@@ -50,6 +56,11 @@ def api_devices_not_fully_synced():
 def ping():
     return jsonify("ello")
 
+
+def retest_offline_devices_if_requested():
+    if request.args.get("load") == "full":
+        mux.retest_the_offline_devices()
+
 if __name__ == '__main__':
 	app.run()    
 
@@ -58,6 +69,7 @@ if __name__ == '__main__':
 
 
 # send "metrics" home on startup
+# do this every 24 hours
 def report_data():
     if os.environ.get("DISABLE_REPORTING", "false").lower() != "true":
         import time, socket, requests
