@@ -29,8 +29,10 @@ def root():
     # default refresh only the known online devices
     # but if we get a ?load=full we recheck the offline devices
     retest_offline_devices_if_requested()
-
-    res = mux.get_full_device_list_status()
+    if request.args.get("thread") == "no":
+        res = mux.get_full_device_list_status()
+    else:
+        res = mux.get_full_device_list_status_threaded()
     offline_device_count = mux.get_offline_device_count()
     offine_device_names = mux.get_offline_device_names()
     last_checked_offline = mux.get_how_long_ago_we_checked_offline_devices_in_human()

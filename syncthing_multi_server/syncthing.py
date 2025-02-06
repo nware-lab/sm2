@@ -41,7 +41,8 @@ class Syncthing:
 
     def _request_builder(self,path:str):
         # helper function to keep the rest of the code cleaner
-        return requests.request("GET",self.baseurl + path, headers = {'Authorization':  f'Bearer {self.api_key}'})
+        # short timeout because if we in 0.5 sec don't have our response something is wrong and we aren't going to wait forever
+        return requests.get(self.baseurl + path, headers = {'Authorization':  f'Bearer {self.api_key}'},timeout=0.5)
 
     def healthcheck(self):
         # https://docs.syncthing.net/rest/noauth-health-get.html

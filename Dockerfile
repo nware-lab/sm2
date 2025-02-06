@@ -4,7 +4,7 @@ ENV PYTHONUNBUFFERED=true
 
 COPY requirements.txt .
 RUN pip3 install --no-cache-dir -r requirements.txt
-ENV SM2_VERSION=0.1.2
+ENV SM2_VERSION=0.1.3
 COPY . /app
 WORKDIR /app
 ENTRYPOINT ["python3"]
