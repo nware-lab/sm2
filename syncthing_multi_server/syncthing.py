@@ -31,8 +31,6 @@ class Syncthing:
         device_status.errors = self.system_errors()
         device_status.sync_completion = self.system_sync_completion_level()["completion"]
         device_status.local_changed_files = self.list_folders_that_have_local_changes()
-        # fold_list = 
-        # if fold_list is not None:
         device_status.folder_count = len(self.list_folders_simplified())
         device_status.device_count = len(self.list_devices())
         device_status.pending_folders = self.list_pending_folders_labels_for_device()
