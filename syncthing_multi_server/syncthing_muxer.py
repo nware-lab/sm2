@@ -1,6 +1,9 @@
 from syncthing_multi_server.syncthing import Syncthing
 import time
 
+import threading
+import concurrent.futures
+
 """ class that gathers the info from all the configured syncthing devices """
 
 
@@ -117,6 +120,10 @@ class Syncthing_mux:
 
     def get_full_device_list_status(self):
         all_statuses = list()
+
+        # before 800~ ms response for 6 devices
+        #TODO multithread this
+
         for device in self.device_list:
             try:
                 status = device.get_syncthing_device_status()
@@ -127,6 +134,28 @@ class Syncthing_mux:
 
 
         return all_statuses
+
+    def get_full_device_list_status_threaded(self):
+        all_statuses = list()
+
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+                futures = [executor.submit(self.thread_worker_get_device_status, device) for device in self.device_list] # create the threads and assign them function and arguments
+
+                for future in concurrent.futures.as_completed(futures): # as_completed returns the results when the threads are done
+                    try:
+                        result = future.result()  # Get the result from the thread
+                        all_statuses.append(result)
+                    except Exception as e:
+                        print(f"error when checking for statuses with threads {e}")
+                        print(f"because we have an error in the threaded way likely a device that has gone ofline, we switch back to the non threaded check")
+                        return self.get_full_device_list_status()
+
+
+        return all_statuses
+
+    def thread_worker_get_device_status(self, device:Syncthing):
+        status = device.get_syncthing_device_status()
+        return self.del_none(status.__dict__)
 
     def get_list_off_devices_that_are_not_fully_synced(self) -> []:
         full_status = self.get_full_device_list_status()
