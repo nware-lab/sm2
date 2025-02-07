@@ -16,13 +16,13 @@ This project was made with very little sleep so there will be typo's, missed con
 Any feedback is appreciated.
 
 # features
-- Sync status of each device
+- Sync status of each device (threaded for performance)
 - List of folders with local changes (if there are any)
 - List pending devices or folders (if there are any)
 - Display of errors (if there are any)
 - API for monitoring (I use changedetecion.io)
 - Small footprint: docker image ~65MB, ram usage 34MB (goal is to lower this back down)
-- Responsive (but ugly) UI that works on mobile devices
+- Responsive UI that works on mobile devices
 - Configure devices with environment variables or with a json file 
 - handling devices going offline and returning (phones, laptops, ...)
 
@@ -118,8 +118,7 @@ Q: How would I add devices that are on different networks?
 A: I use vpn's to connect my multiple locations common options are tailscale, netbird, twingate, ... (not endorsements)
 
 # TODO's
-- api param to test offline devices on status call
+- check offline devices in background
 - gotify for notifications ?
 - figure out healthcheck that has less cpu impact
-- performance improvements
 
