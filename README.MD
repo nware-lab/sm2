@@ -118,8 +118,6 @@ sm² has basic reporting for some statistics. __no personal data__ will ever be 
 | DISABLE_OFFLINE_DEVICE_BACKGROUND_RETRY | disable the retrying off offline devices in background | false         |
 | DISABLE_REPORTING | disable the information reporting | false |
 
-`DISABLE_OFFLINE_DEVICE_BACKGROUND_RETRY`
-recheck offline devices in the background every hour.
 
 # FAQ 
 Q: How would I add devices that are on different networks? 
