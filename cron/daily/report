@@ -1,0 +1,7 @@
+#!/bin/sh
+#report to home
+#It looks like here we are ignoring if the user has configured whether or to do the reporting.
+#The users decision is captured by the webserver.
+#Future goal is to remove this cron job when the reporting is disable by the user
+echo doing the report call
+wget http://127.0.0.1:8456/report -O /dev/null

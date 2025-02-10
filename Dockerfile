@@ -4,8 +4,10 @@ ENV PYTHONUNBUFFERED=true
 
 COPY requirements.txt .
 RUN pip3 install --no-cache-dir -r requirements.txt
-ENV SM2_VERSION=0.1.3
+ENV SM2_VERSION=0.1.4
+ENV TZ=UTC
 COPY . /app
+COPY ./cron /etc/periodic
 WORKDIR /app
 ENTRYPOINT ["python3"]
 HEALTHCHECK --interval=5s --timeout=1s --start-period=5s --retries=1 CMD ps aux | grep 'gunicorn' || exit 1

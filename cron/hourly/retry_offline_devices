@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# ping test
+wget http://127.0.0.1:8456/ping -O /dev/null

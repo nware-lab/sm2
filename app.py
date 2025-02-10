@@ -59,33 +59,66 @@ def ping():
     return jsonify("ello")
 
 
+# send "metrics" home on startup
+# no reason to trigger this yourself
+# Please don't spam this. :) thanks
+@app.route("/report")
+def report_data():
+    # some cool 'magic' which allows us to run this function before the app is fully loaded
+    with app.app_context():
+        if os.environ.get("DISABLE_REPORTING", "false").lower() != "true":
+            import time, socket, requests
+            data= {}
+            data["ts"]= time.time()
+            #aware that this will only give contianer id but thats what i want.
+            data["hostname"] = socket.gethostname()
+            # amount off devices
+            data["dev"]= mux.get_total_device_count()
+            # app version
+            data["v"]= os.environ.get("SM2_VERSION", "0")
+            try:
+                requests.post("https://private-sm2monitor.onrender.com/report",json=data)
+            except Exception:
+                print("stats reporting failed")
+            return jsonify(data)
+        return jsonify("user requested no reporting so we will not")
+
+
 def retest_offline_devices_if_requested():
     if request.args.get("load") == "full":
         mux.retest_the_offline_devices()
 
+def remove_cron_jobs_if_requested():
+    print("cleaning cron jobs if requested")
+    if os.environ.get("DISABLE_REPORTING", "false").lower() == "true":
+        # the user requested no reporting so we will delete the cron job that would trigger that reporting.
+        report_path = "/etc/periodic/daily/report"
+        if os.path.exists("/etc/periodic/daily/report"):
+            print("deleting daily report cron script")
+            os.remove(report_path)
+        else:
+            print(f"{report_path} not found or already deleted")
+    if os.environ.get("DISABLE_OFFLINE_DEVICE_BACKGROUND_RETRY", "false").lower() == "true":
+        # user asked for no background retry off the offline devices
+        retry_offline_devices_path = "/etc/periodic/hourly/retry_offline_devices"
+        if os.path.exists(retry_offline_devices_path):
+            print("deleting hourly offline device retry cron")
+            os.remove(retry_offline_devices_path)
+        else:
+            print(f"{retry_offline_devices_path} not found or already deleted")
+
+
 if __name__ == '__main__':
-	app.run()    
-
-
-
-
-
-# send "metrics" home on startup
-# do this every 24 hours
-def report_data():
-    if os.environ.get("DISABLE_REPORTING", "false").lower() != "true":
-        import time, socket, requests
-        data= {}
-        data["ts"]= time.time()
-        #aware that this will only give contianer id but thats what i want.
-        data["hostname"] = socket.gethostname()
-        # amount off devices
-        data["dev"]= mux.get_total_device_count()
-        # app version
-        data["v"]= os.environ.get("SM2_VERSION", "0")
-        try:
-            requests.post("https://private-sm2monitor.onrender.com/report",json=data)
-        except Exception:
-            print("stats reporting failed")
-        print(f"sent home this data for statistics: {data}")
+    app.run()
+    
 report_data()
+remove_cron_jobs_if_requested()
+print("sm² is loaded and ready")
+print("-----------------------------")
+print(" ######  ##     ##  #######  ")
+print("##    ## ###   ### ##     ## ")
+print("##       #### ####        ## ")
+print(" ######  ## ### ##  #######  ")
+print("      ## ##     ## ##        ")
+print("##    ## ##     ## ##        ")
+print(" ######  ##     ## ######### ")
