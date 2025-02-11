@@ -19,7 +19,7 @@ if os.path.exists(device_list_file_path):
     mux.add_list_off_devices_dicts(devices)
 # add the devices from the env variable to the mux
 mux.add_list_off_devices_dicts(get_devices_from_env_vriables())
-print("sm² is loaded and ready")
+
 
 
 

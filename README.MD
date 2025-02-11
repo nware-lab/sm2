@@ -117,6 +117,7 @@ sm² has basic reporting for some statistics. __no personal data__ will ever be 
 |-----------------------------------------|-------------------------------------|-------------- |
 | DISABLE_OFFLINE_DEVICE_BACKGROUND_RETRY | disable the retrying off offline devices in background | false         |
 | DISABLE_REPORTING | disable the information reporting | false |
+| DEVICE_API_TIMEOUT_SEC | timeout value for sm² calls to devices | 0.5 |
 
 
 # FAQ 
