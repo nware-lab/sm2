@@ -9,7 +9,7 @@ timeout_default_value = 0.5
 timeout = timeout_default_value
 timeout_env_var_name="DEVICE_API_TIMEOUT_SEC"
 
-if timeout_default_value in os.environ:
+if timeout_env_var_name in os.environ:
     try: 
         input=os.environ.get(timeout_env_var_name, timeout_default_value)
         timeout = float(input)
