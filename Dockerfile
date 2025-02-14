@@ -8,6 +8,7 @@ ENV SM2_VERSION=0.1.5
 ENV TZ=UTC
 COPY . /app
 COPY ./cron /etc/periodic
+RUN chmod +x -R /etc/periodic/
 WORKDIR /app
 ENTRYPOINT ["python3"]
 HEALTHCHECK --interval=5s --timeout=1s --start-period=5s --retries=1 CMD ps aux | grep 'gunicorn' || exit 1
