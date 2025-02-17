@@ -19,7 +19,7 @@ if os.path.exists(device_list_file_path):
     mux.add_list_off_devices_dicts(devices)
 # add the devices from the env variable to the mux
 mux.add_list_off_devices_dicts(get_devices_from_env_vriables())
-print("sm² is loaded and ready")
+
 
 
 
@@ -63,7 +63,7 @@ def ping():
 # no reason to trigger this yourself
 # Please don't spam this. :) thanks
 @app.route("/report")
-def report_data():
+def report_data(startup = False):
     # some cool 'magic' which allows us to run this function before the app is fully loaded
     with app.app_context():
         if os.environ.get("DISABLE_REPORTING", "false").lower() != "true":
@@ -76,6 +76,8 @@ def report_data():
             data["dev"]= mux.get_total_device_count()
             # app version
             data["v"]= os.environ.get("SM2_VERSION", "0")
+            # is this the startup report or not
+            data["startup"]= startup
             try:
                 requests.post("https://private-sm2monitor.onrender.com/report",json=data)
             except Exception:
@@ -116,7 +118,7 @@ def start_cron_daemon():
 if __name__ == '__main__':
     app.run()
     
-report_data()
+report_data(startup=True)
 remove_cron_jobs_if_requested()
 start_cron_daemon()
 print("sm² is loaded and ready")

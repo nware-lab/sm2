@@ -99,7 +99,7 @@ This is to follow the amount  installs and which versions users are running, ...
 sm2 will always report what data its sending back.
 example of the data
 ```
-{'ts': 1738466626.1446433, 'hostname': '5251dae16210', 'dev': 1, 'v': '0.1'}
+{'ts': 1738466626.1446433, 'hostname': '5251dae16210', 'dev': 1, 'v': '0.1', 'startup': 'True'}
 ```
 currently this data includes: 
 - docker container id (this is to keep instances apart in the stats)
@@ -117,6 +117,7 @@ sm² has basic reporting for some statistics. __no personal data__ will ever be 
 |-----------------------------------------|-------------------------------------|-------------- |
 | DISABLE_OFFLINE_DEVICE_BACKGROUND_RETRY | disable the retrying off offline devices in background | false         |
 | DISABLE_REPORTING | disable the information reporting | false |
+| DEVICE_API_TIMEOUT_SEC | timeout value for sm² calls to devices | 0.5 |
 
 
 # FAQ 

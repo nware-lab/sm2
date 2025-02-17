@@ -1,5 +1,24 @@
 import requests
 import json
+import os
+
+'''
+Setup call timeout based on environment variable if requested by the user
+'''
+timeout_default_value = 0.5
+timeout = timeout_default_value
+timeout_env_var_name="DEVICE_API_TIMEOUT_SEC"
+
+if timeout_env_var_name in os.environ:
+    try: 
+        input=os.environ.get(timeout_env_var_name, timeout_default_value)
+        timeout = float(input)
+        print(f"{timeout_env_var_name} set to {timeout} seconds")
+    except ValueError: 
+        print(f"error casting requested {timeout_env_var_name} value got : {input} \nreverting back to default value 0.5 s")
+        # likely an unneeded line but it will one be executed on startup and keeps this readable 
+        timeout=timeout_default_value
+
 
 class Syncthing_device_status:
     """ Class for carrying the status off a syncthing device """
@@ -42,7 +61,8 @@ class Syncthing:
     def _request_builder(self,path:str):
         # helper function to keep the rest of the code cleaner
         # short timeout because if we in 0.5 sec don't have our response something is wrong and we aren't going to wait forever
-        return requests.get(self.baseurl + path, headers = {'Authorization':  f'Bearer {self.api_key}'},timeout=0.5)
+        # users asked for a configurable timeout, which we get from env variable: default value is 0.5s
+        return requests.get(self.baseurl + path, headers = {'Authorization':  f'Bearer {self.api_key}'},timeout=timeout)
 
     def healthcheck(self):
         # https://docs.syncthing.net/rest/noauth-health-get.html
