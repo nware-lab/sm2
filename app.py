@@ -108,11 +108,17 @@ def remove_cron_jobs_if_requested():
             print(f"{retry_offline_devices_path} not found or already deleted")
 
 
+def start_cron_daemon():
+    import subprocess
+    subprocess.run("crond")
+    print("Background cron started")
+
 if __name__ == '__main__':
     app.run()
     
 report_data()
 remove_cron_jobs_if_requested()
+start_cron_daemon()
 print("sm² is loaded and ready")
 print("-----------------------------")
 print(" ######  ##     ##  #######  ")
