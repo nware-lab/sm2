@@ -4,11 +4,11 @@ stylized as sm² (or sm2 for convenience)
 
 
 ## The goal:
-Monitor multiple syncthing instances while using as little diskspace(docker image size) & memory while doing it.
+Monitor multiple syncthing instances while using as little diskspace (docker image size) & memory while doing it.
 
-This affected the following parts:
-- no use of an already made syncthing library (this also allows sm2 to only ever call GET endpoinds)
-- no fancy ui -> lower diskspace, loadtime ( I also could not make a fancy ui if I tried)
+This affects the following parts:
+- no use of existing syncthing libraries (this means sm2 only hits GET endpoints)
+- no fancy ui -> lower diskspace, loadtime (I also could not make a fancy ui if I tried)
 - no logging exept printing to console logging increased the ram usage by ~50%
 
 
@@ -81,7 +81,7 @@ You can mix both env variables & the device file
     ports:
       - 8456:8456
 ```
-## with device files
+## with a device file
 ```
   sm2:
     image: nwarelab/sm2:latest
@@ -95,9 +95,10 @@ You can mix both env variables & the device file
 
 ## data reporting
 By default the application reports some data back for usage statistics.
-This is to follow the amount  installs and which versions users are running, ...
-sm2 will always report what data its sending back.
-example of the data
+This is to follow the amount installs and which versions users are running, ...
+sm2 will always report what data it's sending back.
+
+## example report
 ```
 {'ts': 1738466626.1446433, 'hostname': '5251dae16210', 'dev': 1, 'v': '0.1', 'startup': 'True'}
 ```
@@ -122,7 +123,7 @@ sm² has basic reporting for some statistics. __no personal data__ will ever be 
 
 # FAQ 
 Q: How would I add devices that are on different networks? 
-A: I use vpn's to connect my multiple locations common options are tailscale, netbird, twingate, ... (not endorsements)
+A: I use VPN's to connect my multiple locations common options are tailscale, netbird, twingate, ... (not endorsements)
 
 # TODO's
 - check offline devices in background
