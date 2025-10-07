@@ -8,6 +8,8 @@ Setup call timeout based on environment variable if requested by the user
 timeout_default_value = 0.5
 timeout = timeout_default_value
 timeout_env_var_name="DEVICE_API_TIMEOUT_SEC"
+disable_ssl_verify_var_name="DISABLE_SSL_VERIFY"
+disable_ssl_verify=False
 
 if timeout_env_var_name in os.environ:
     try: 
@@ -18,6 +20,17 @@ if timeout_env_var_name in os.environ:
         print(f"error casting requested {timeout_env_var_name} value got : {input} \nreverting back to default value 0.5 s")
         # likely an unneeded line but it will one be executed on startup and keeps this readable 
         timeout=timeout_default_value
+
+if disable_ssl_verify_var_name in os.environ:
+    try:
+        input=os.environ.get(disable_ssl_verify_var_name, False).lower()
+        if input in ["1","true","yes","on"]:
+            disable_ssl_verify=True
+            print(f"{disable_ssl_verify_var_name} set to {disable_ssl_verify}")
+    except ValueError: 
+        print(f"error casting requested {disable_ssl_verify_var_name} value got : {input} \nreverting back to default value False")
+        # likely an unneeded line but it will one be executed on startup and keeps this readable 
+        disable_ssl_verify=False
 
 
 class Syncthing_device_status:
@@ -62,7 +75,7 @@ class Syncthing:
         # helper function to keep the rest of the code cleaner
         # short timeout because if we in 0.5 sec don't have our response something is wrong and we aren't going to wait forever
         # users asked for a configurable timeout, which we get from env variable: default value is 0.5s
-        return requests.get(self.baseurl + path, headers = {'Authorization':  f'Bearer {self.api_key}'},timeout=timeout)
+        return requests.get(self.baseurl + path, headers = {'Authorization':  f'Bearer {self.api_key}'},timeout=timeout, verify= disable_ssl_verify)
 
     def healthcheck(self):
         # https://docs.syncthing.net/rest/noauth-health-get.html
