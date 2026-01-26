@@ -75,7 +75,7 @@ class Syncthing:
         # helper function to keep the rest of the code cleaner
         # short timeout because if we in 0.5 sec don't have our response something is wrong and we aren't going to wait forever
         # users asked for a configurable timeout, which we get from env variable: default value is 0.5s
-        return requests.get(self.baseurl + path, headers = {'Authorization':  f'Bearer {self.api_key}'},timeout=timeout, verify= enable_ssl_verify)
+        return requests.get(self.baseurl + path, headers = {'X-API-Key':  f'{self.api_key}'},timeout=timeout, verify= enable_ssl_verify)
 
     def healthcheck(self):
         # https://docs.syncthing.net/rest/noauth-health-get.html
